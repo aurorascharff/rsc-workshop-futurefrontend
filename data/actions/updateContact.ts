@@ -9,7 +9,11 @@ export async function updateContact(contactId: string, formData: FormData) {
   await slow();
 
   const data = Object.fromEntries(formData);
-  const result = contactSchema.parse(data);
+  const result = contactSchema.safeParse(data);
+
+  if (!result.success) {
+    throw new Error('Invalid contact data');
+  }
 
   await prisma.contact.update({
     data: result,
