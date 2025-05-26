@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
-import Button from '@/components/ui/Button';
+import React, { useTransition } from 'react';
+
+import SubmitButton from '@/components/ui/SubmitButton';
 import { deleteContact } from '@/data/actions/deleteContact';
 
 type Props = {
@@ -9,18 +10,22 @@ type Props = {
 };
 
 export default function DeleteContactButton({ contactId }: Props) {
+  const [isPending, startTransition] = useTransition();
+
   return (
     <form
-      action={async () => {
+      action={() => {
         const response = confirm('Are you sure you want to delete this contact? This action cannot be undone.');
         if (response) {
-          await deleteContact(contactId);
+          startTransition(async () => {
+            await deleteContact(contactId);
+          });
         }
       }}
     >
-      <Button type="submit" theme="destroy">
+      <SubmitButton loading={isPending} type="submit" theme="destroy">
         Delete
-      </Button>
+      </SubmitButton>
     </form>
   );
 }
