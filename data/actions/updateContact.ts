@@ -3,20 +3,23 @@
 import { redirect } from 'next/navigation';
 import { prisma } from '@/db';
 import { slow } from '@/utils/slow';
+import type { ContactSchemaType } from '@/validations/contactSchema';
 import { contactSchema } from '@/validations/contactSchema';
 
 export async function updateContact(contactId: string, formData: FormData) {
-  await slow();
-
   const data = Object.fromEntries(formData);
   const result = contactSchema.safeParse(data);
 
   if (!result.success) {
-    throw new Error('Invalid contact data');
+    return {
+      data: data as ContactSchemaType,
+      errors: result.error.formErrors,
+    };
   }
+  await slow();
 
   await prisma.contact.update({
-    data: result,
+    data: result.data,
     where: {
       id: contactId,
     },
