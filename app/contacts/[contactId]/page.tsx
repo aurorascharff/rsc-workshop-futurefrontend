@@ -1,4 +1,5 @@
 import Image from 'next/image';
+
 import Button from '@/components/ui/Button';
 import LinkButton from '@/components/ui/LinkButton';
 import { getContact } from '@/data/services/getContact';
