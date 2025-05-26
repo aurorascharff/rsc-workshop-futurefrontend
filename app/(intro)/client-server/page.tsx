@@ -6,8 +6,9 @@ export default function ClientServerPage() {
   return (
     <div>
       ClientServerPage
-      <ServerComponent />
-      <ClientComponent />
+      <ClientComponent content={<ServerComponent />}>
+        <ServerComponent />
+      </ClientComponent>
     </div>
   );
 }
