@@ -1,4 +1,5 @@
 import React from 'react';
+import ClientComponent from './_components/ClientComponent';
 import ServerComponent from './_components/ServerComponent';
 
 export default function ClientServerPage() {
@@ -6,6 +7,7 @@ export default function ClientServerPage() {
     <div>
       ClientServerPage
       <ServerComponent />
+      <ClientComponent />
     </div>
   );
 }
