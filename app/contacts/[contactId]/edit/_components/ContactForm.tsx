@@ -1,6 +1,5 @@
 'use client';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useActionState } from 'react';
 
 import Input from '@/components/ui/Input';
@@ -8,12 +7,17 @@ import LinkButton from '@/components/ui/LinkButton';
 import SubmitButton from '@/components/ui/SubmitButton';
 import TextArea from '@/components/ui/TextArea';
 import { updateContact } from '@/data/actions/updateContact';
-import type { ContactSchemaErrorType } from '@/validations/contactSchema';
+import type { ContactSchemaErrorType, ContactSchemaType } from '@/validations/contactSchema';
 import type { Contact } from '@prisma/client';
+
+type State = {
+  data?: ContactSchemaType;
+  errors?: ContactSchemaErrorType;
+};
 
 export default function ContactForm({ contact }: { contact: Contact }) {
   const [state, updateContactAction] = useActionState(
-    (prevState: any, formData: FormData) => {
+    (_prevState: State, formData: FormData) => {
       return updateContact(contact.id, formData);
     },
     {
